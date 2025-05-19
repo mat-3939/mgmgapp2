@@ -55,8 +55,8 @@ INSERT INTO orders (last_name, first_name, email, postcode, prefecture, city, ad
 INSERT INTO orders (last_name, first_name, email, postcode, prefecture, city, address_line, building, tel, pay_method, total_price, order_date, status) VALUES 
 ('名古屋', '四郎', 'nagoya@gmail.com', '456-7890', '愛知県', '名古屋市', '名古屋1-1-1', '名古屋マンション101号室', '090-9876-5432', 'クレジットカード', 1880, '2025-01-13 10:00:00', FALSE);
 
-INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (1, 1, 2, 1180);
-INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (2, 1, 1, 1180);
-INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (3, 2, 2, 1080);
-INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (4, 7, 2, 860);
-INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (5, 13, 2, 940);
+INSERT INTO order_items (order_id, product_name, quantity, price) VALUES (1, 'おかず12マス弁当～瑞～', 2, 1180);
+INSERT INTO order_items (order_id, product_name, quantity, price) VALUES (2, 'おかず12マス弁当～瑞～', 1, 1180);
+INSERT INTO order_items (order_id, product_name, quantity, price) VALUES (3, 'みず穂の幕ノ内弁当', 2, 1080);
+INSERT INTO order_items (order_id, product_name, quantity, price) VALUES (4, 'サワラ唐揚げあんかけ弁当', 2, 860);
+INSERT INTO order_items (order_id, product_name, quantity, price) VALUES (5, 'サバ塩焼き弁当', 2, 940);
