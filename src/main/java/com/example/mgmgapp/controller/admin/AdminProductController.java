@@ -3,8 +3,7 @@ package com.example.mgmgapp.controller.admin;
 import java.util.List;
 
 import jakarta.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,17 +27,11 @@ import com.example.mgmgapp.service.admin.AdminProductService;
  */
 @Controller
 @RequestMapping("/admin/products")
+@AllArgsConstructor
 public class AdminProductController {
 
 	private final AdminProductService adminProductService;
 	private final AdminCategoryService adminCategoryService;
-
-	@Autowired
-	public AdminProductController(AdminProductService adminProductService,
-	                              AdminCategoryService adminCategoryService) {
-		this.adminProductService = adminProductService;
-		this.adminCategoryService = adminCategoryService;
-	}
 
 	/**
 	 * 商品一覧を表示（デフォルトは新着順）
@@ -74,7 +67,7 @@ public class AdminProductController {
 	    model.addAttribute("keyword", keyword);
 		return "admin/products";
 	}
-	
+
 	/**
 	 * 指定したカテゴリの商品一覧を表示
 	 */

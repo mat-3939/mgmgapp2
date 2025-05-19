@@ -9,7 +9,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,16 +18,14 @@ import com.example.mgmgapp.entity.Products;
 import com.example.mgmgapp.repository.user.ProductRepository;
 import com.example.mgmgapp.util.CategoryDirectoryMapper;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class ProductService {
-	
+
 	private final ProductRepository productRepository;
-    
-	@Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-	
+
 	// 商品名で検索（部分一致）
     public List<Products> searchByName(String query) {
         // クエリが空でないかチェック
@@ -39,7 +36,7 @@ public class ProductService {
         // 商品名に部分一致する商品を検索
         return productRepository.findByNameContainingIgnoreCase(query);
     }
-    
+
     public List<Products> searchByKeywordAndCategorySorted(String keyword, Integer categoryId, String sort) {
     	Sort sorting;
         switch (sort) {
@@ -55,14 +52,14 @@ public class ProductService {
         }
     	return productRepository.findByNameContainingAndCategoryId(keyword, categoryId, sorting);
     }
-    
+
     /**
      * キーワード検索＆カテゴリ絞り込み
      */
     public List<Products> searchByNameAndCategory(String keyword, Integer categoryId) {
         return productRepository.findByNameContainingAndCategoryId(keyword, categoryId);
     }
-    
+
     /**
      * キーワード検索＆ソート
      */
@@ -82,14 +79,14 @@ public class ProductService {
         return productRepository.findByNameContainingIgnoreCase(keyword, sorting);
     }
 
-    
+
     /**
      * 指定したカテゴリの商品一覧を取得する
      */
     public List<Products> findByCategoryId(Integer categoryId) {
         return productRepository.findByCategoryIdOrderByCreatedAtDesc(categoryId);
     }
-    
+
     /**
      * ソート付きで商品を取得（ControllerでsortKeyによって分岐）
      */
@@ -100,7 +97,7 @@ public class ProductService {
     	default -> productRepository.findAllByOrderByCreatedAtDesc(); // "new" またはデフォルト
     	};
     }
-    
+
     /**
      * カテゴリ指定＆ソート条件
      */
@@ -119,12 +116,12 @@ public class ProductService {
         }
         return productRepository.findByCategoryId(categoryId, sorting);
     }
-    
+
     public Products getProductById(Integer id) {
         return productRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + id));
     }
-    
+
     /**
      * 画像保存処理
      */
@@ -162,7 +159,7 @@ public class ProductService {
             throw new RuntimeException("画像の保存に失敗しました: " + e.getMessage(), e);
         }
     }
-    
+
     /**
      * 指定した商品IDのリストで複数の商品を取得
      */

@@ -12,7 +12,6 @@ import java.util.Optional;
 
 import jakarta.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,19 +21,17 @@ import com.example.mgmgapp.entity.Products;
 import com.example.mgmgapp.repository.admin.AdminProductRepository;
 import com.example.mgmgapp.util.CategoryDirectoryMapper;
 
+import lombok.AllArgsConstructor;
+
 /**
  * 管理者側の商品操作サービスクラス。
  * 商品の一覧取得、詳細取得、登録、更新、削除などのロジックを定義。
  */
 @Service
+@AllArgsConstructor
 public class AdminProductService {
 
     private final AdminProductRepository adminProductRepository;
-
-    @Autowired
-    public AdminProductService(AdminProductRepository adminProductRepository) {
-        this.adminProductRepository = adminProductRepository;
-    }
 
     /**
      * 全商品の一覧を取得（登録日が新しい順）
