@@ -1,0 +1,286 @@
+@charset "UTF-8";
+
+/* 注文一覧ページのスタイル */
+.page-header {
+	margin-bottom: 20px;
+}
+
+/* 検索セクション */
+.search-container {
+	margin: 0 40px 40px;
+	border-radius: 10px;
+}
+
+.search-box {
+	align-items: start;
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+	width: 600px;
+}
+
+.keyword {
+	width: 600px;
+	align-self: stretch;
+	background-color: rgba(255, 255, 255);
+	border-color: rgba(206, 206, 206);
+	border-radius: 5px;
+	border-style: solid;
+	border-width: 1px;
+	display: flex;
+	flex-shrink: 0;
+}
+
+/* 詳細検索トグル */
+.detail-search {
+	display: none;
+	max-width: 300px;
+	margin-bottom: 30px;
+	margin-left: 0;
+	margin-right: auto;
+}
+
+.form-group {
+	margin: 15px 0;
+}
+
+.form-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.form-group.third {
+	flex: 1;
+}
+
+.form-group.half {
+	flex: 1;
+	min-width: 200px;
+}
+
+.form-group.full {
+	flex: 1 1 100%;
+}
+
+.form-group.tilde {
+	flex: 0;
+	font-size: 16px;
+	color: rgba(51, 51, 51);
+	white-space: nowrap;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"] {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 6px;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+
+.search-box {
+	align-items: start;
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+	width: 600px;
+}
+
+.detail-search.show {
+	display: block;
+}
+
+.toggle-button {
+	padding: 6px 12px;
+	font-size: 14px;
+}
+
+.button-content {
+	display: flex;
+	align-items: center;
+}
+
+.button-content svg {
+	margin-right: 5px;
+}
+
+/* テーブルコントロール */
+.search-select {
+	align-items: flex-end;
+	display: flex;
+	margin: 0 40px 20px 40px;
+	justify-content: space-between;
+}
+
+.select-label {
+	font-size: 14px;
+}
+
+.select-wrapper {
+	position: relative;
+}
+
+.filter-controls {
+	display: flex;
+	gap: 24px;
+	align-items: flex-end;
+}
+
+.dropdown {
+	appearance: none;
+	width: 200px;
+	align-items: stretch;
+	gap: 25px;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.select-wrapper::after {
+	content: '▼';
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+	font-size: 12px;
+	color: rgba(51, 51, 51);
+}
+
+.filter-form,
+.sort-form {
+	margin: 0;
+}
+
+/* テーブルスタイル */
+.table-wrapper {
+	width: 100%;
+	padding: 0 40px 80px 40px;
+	box-sizing: border-box;
+	overflow-x: auto;
+}
+
+table {
+	width: 100%;
+	background-color: rgba(255, 255, 255);
+	border-collapse: separate;
+	border-spacing: 0;
+	border-radius: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	white-space: nowrap;
+	table-layout: fixed;
+}
+
+th,
+td {
+	text-align: left;
+	font-size: 14px;
+	padding: 24px;
+	vertical-align: middle;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+tr:not(:last-child) {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.product-name {
+	text-decoration: none;
+	color: rgba(0, 110, 188);
+}
+
+.select-wrapper-table {
+	position: relative;
+	width: 100%;
+}
+
+#status.dropdown {
+	appearance: none;
+	width: 90%;
+	align-items: stretch;
+	box-sizing: border-box;
+	cursor: pointer;
+	border-color: rgba(255, 255, 255);
+	right: 10px;
+}
+
+.select-wrapper-table::after {
+	content: '▼';
+	position: absolute;
+	right: 35px;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+	font-size: 12px;
+	color: rgba(51, 51, 51);
+}
+
+.id {
+	text-align: center;
+}
+
+/* ボタンスタイル */
+.primary-button {
+	background-color: rgba(0, 110, 188);
+	color: white;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 14px;
+	transition: background-color 0.2s;
+}
+
+.primary-button:hover {
+	background-color: rgba(0, 86, 179);
+}
+
+.secondary-button {
+	background-color: rgba(108, 117, 125);
+	color: rgba(255, 255, 255);
+	border: none;
+	padding: 8px 16px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 14px;
+	transition: background-color 0.2s;
+}
+
+.secondary-button:hover {
+	background-color: rgba(90, 98, 104);
+}
+
+.toggle {
+	font-size: 14px;
+	font-weight: 600;
+	color: rgba(51, 51, 51);
+	background-color: transparent;
+	padding: 0;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+	.form-group.half {
+		flex: 0 0 100%;
+		margin: 0 0 15px;
+	}
+
+	.table-controls {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.filter-controls {
+		margin-top: 10px;
+		width: 100%;
+	}
+
+	.filter-form,
+	.sort-form {
+		flex: 1;
+	}
+}

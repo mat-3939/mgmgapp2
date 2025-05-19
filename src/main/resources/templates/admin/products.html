@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>商品一覧 | Management</title>
+	<link rel="icon" th:href="@{/favicon.ico?v=1}" type="image/x-icon">
+	<link rel="stylesheet" th:href="@{/css/admin/common.css}">
+	<link rel="stylesheet" th:href="@{/css/admin/products.css}">
+</head>
+
+<body>
+	<!-- 共通ヘッダー読み込み -->
+	<th:block th:replace="~{admin/fragments :: header}" />
+
+	<!-- 共通サイドメニュー読み込み -->
+	<th:block th:replace="~{admin/fragments :: sidemenu}" />
+
+	<div class="main">
+		<div class="top-bar">
+			<h1>商品一覧 <span class="sub-title">商品管理</span></h1>
+			<a class="new-button" th:href="@{/admin/products/new}">新規登録</a>
+		</div>
+
+		<div class="search-container">
+			<form th:action="@{/admin/products}" method="get">
+				<div class="search-box">
+					<input type="text" class="keyword" name="keyword" th:value="${keyword}" placeholder="商品名">
+					<button class="search-button">検索</button>
+				</div>
+				<!-- エラーメッセージ表示 -->
+				<div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+			</form>
+		</div>
+
+		<div class="search-select">
+			<!-- カテゴリ一覧を表示するボタン -->
+			<div class="search-left">
+				<button class="open-dialog-btn">カテゴリ一覧</button>
+			</div>
+			<div class="dialog-overlay" id="customDialog">
+				<div class="dialog-box">
+					<h3>カテゴリ一覧</h3>
+					<ol>
+						<li th:each="category : ${categories}" th:text="${category.name}"></li>
+					</ol>
+					<button class="close-btn">閉じる</button>
+				</div>
+			</div>
+
+			<div class="search-right">
+				<!-- カテゴリ絞り込みセレクトボックス -->
+				<form method="get" th:action="@{/admin/products}">
+					<input type="hidden" name="keyword" th:value="${keyword}" />
+					<input type="hidden" name="sort" th:value="${sort}" />
+					<div class="select-wrapper">
+						<span class="select-label">カテゴリ：</span>
+						<select class="dropdown" name="categoryId" onchange="this.form.submit()">
+							<option th:value="''" th:selected="${selectedCategoryId == null}">
+								すべて
+							</option>
+							<option th:each="category : ${categories}" th:value="${category.id}"
+								th:text="${category.name}" th:selected="${category.id == selectedCategoryId}">
+							</option>
+						</select>
+					</div>
+				</form>
+
+				<div class="select-wrapper">
+					<span class="select-label">並び順：</span>
+					<select class="dropdown" onchange="location.href=this.value">
+						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='new')}"
+							th:selected="${sort == 'new'}">登録順</option>
+						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='update')}"
+							th:selected="${sort == 'update'}">更新順</option>
+						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='name')}"
+							th:selected="${sort == 'name'}">商品名</option>
+						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='priceAsc')}"
+							th:selected="${sort == 'priceAsc'}">価格（安い順）</option>
+						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='priceDesc')}"
+							th:selected="${sort == 'priceDesc'}">価格（高い順）</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div th:if="${#lists.isEmpty(products)}" class="no-results">
+			該当する商品が見つかりませんでした。
+		</div>
+
+		<!-- 商品リストに商品がある場合のみ表示（検索結果0件の場合は表示なし） -->
+		<div th:if="${#lists.size(products) > 0}">
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th class="id">ID</th>
+							<th>画像</th>
+							<th class="name">商品名</th>
+							<th>カテゴリ</th>
+							<th>価格</th>
+							<th>在庫数</th>
+							<th>登録日</th>
+							<th>更新日</th>
+							<th class="delete">削除</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="product : ${products}">
+							<td class="id" th:text="${product.id}">20</td>
+							<td class="img"><img class="product-img" th:src="@{${product.imagePath}}"
+									th:attr="data-img=${product.imagePath}" alt="${product.name}" />
+							</td>
+							<td class="name">
+								<a th:href="@{/admin/products/edit/{id}(id=${product.id})}" th:text="${product.name}"
+									class="product-name">テスト</a>
+							</td>
+							<td class="category" th:text="${product.category.name}">その他</td>
+							<td class="price" th:text="${@priceFormatter.format(product.price)}">¥2,000</td>
+							<td class="stock" th:text="${product.stock}">100</td>
+							<td class="create" th:text="${#temporals.format(product.createdAt, 'yyyy/MM/dd')}">
+								2025/04/22</td>
+							<td class="update" th:text="${#temporals.format(product.updatedAt, 'yyyy/MM/dd')}">
+								2025/04/01</td>
+							<form th:action="@{/admin/products/delete/{id}(id=${product.id})}" class="delete-form"
+								method="post" th:attr="data-name=${product.name}">
+								<input type="hidden" name="_method" value="delete">
+								<td class="delete">
+									<button type="submit" class="delete-button">
+										<img class="delete-icon" th:src="@{/img/icon/gomibako.svg}" />
+									</button>
+								</td>
+							</form>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script src="/js/utils.js"></script>
+</body>
+
+</html>

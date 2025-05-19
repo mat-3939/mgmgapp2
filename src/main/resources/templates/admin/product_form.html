@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${productForm.id != null ? '商品編集  | Management' : '商品登録  | Management'}">商品登録/編集</title>
+	<link rel="icon" th:href="@{/favicon.ico?v=1}" type="image/x-icon">
+	<link rel="stylesheet" th:href="@{/css/admin/common.css}">
+	<link rel="stylesheet" th:href="@{/css/admin/product_form.css}">
+</head>
+
+<body>
+	<!-- 共通ヘッダー読み込み -->
+	<th:block th:replace="~{admin/fragments :: header}" />
+
+	<!-- 共通サイドメニュー読み込み -->
+	<th:block th:replace="~{admin/fragments :: sidemenu}" />
+
+	<div class="main">
+		<div class="top-bar">
+			<h1>
+				<span class="main-title" th:text="${productForm.id != null ? '商品編集' : '商品登録'}">商品登録</span>
+				<span class="sub-title">商品管理</span>
+			</h1>
+		</div>
+
+		<form th:action="@{${formMode == 'edit'} ? '/admin/products/edit/' + ${productForm.id} : '/admin/products/new'}"
+			th:object="${productForm}" method="post" enctype="multipart/form-data">
+
+			<div class="container">
+				<!-- 商品情報 -->
+				<div class="form-section">
+					<h2>商品情報</h2>
+
+					<!-- 商品名 -->
+					<div class="form-group">
+						<label for="name" class="required">商品</label>
+						<input type="text" id="name" th:field="*{name}" />
+						<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
+					</div>
+
+					<!-- 商品画像 -->
+					<div class="form-group">
+						<label class="required">商品画像</label>
+						<div class="image-upload" th:data-existing-image="${productForm.existingImagePath}">
+							<div>画像をドラッグ＆ドロップまたは</div>
+							<label for="imageFile">ファイルを選択</label>
+							<input type="file" id="imageFile" th:field="*{imageFile}" accept=".jpg,.jpeg,.png" />
+						</div>
+
+						<!-- 画像プレビュー表示場所 -->
+						<div id="preview"></div>
+
+						<span th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}" class="error"></span>
+					</div>
+
+					<!-- 商品説明 -->
+					<div class="form-group">
+						<label for="description">商品説明</label>
+						<textarea id="description" th:field="*{description}"></textarea>
+						<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+							class="error"></span>
+					</div>
+
+					<!-- 価格 -->
+					<div class="form-group">
+						<label for="price" class="required">価格 (税込)</label>
+						<input type="number" id="price" th:field="*{price}" step="0.01" />
+						<span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error"></span>
+					</div>
+
+					<!-- 在庫数 -->
+					<div class="form-group">
+						<label for="stock">在庫数</label>
+						<input type="number" id="stock" th:field="*{stock}" step="1" />
+						<span th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="error"></span>
+					</div>
+				</div>
+
+				<!-- カテゴリ -->
+				<div class="category-section">
+					<h2 class="required">カテゴリ</h2>
+					<div class="category-items">
+						<div th:each="category : ${categories}" class="category-option">
+							<label>
+								<input type="radio" th:field="*{categoryId}" th:value="${category.id}" />
+								<span th:text="${category.name}"></span>
+							</label>
+						</div>
+						<span th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}" class="error"></span>
+					</div>
+				</div>
+			</div>
+
+			<!-- フッター固定ボタン -->
+			<div class="footer-buttons">
+				<a th:href="@{/admin/products}" class="button back-button">&#x25C0;&#x25C0;　商品一覧</a>
+				<button type="submit" id="fot-button" class="new-button"
+					th:text="${productForm.id != null ? '更新' : '登録'}">登録</button>
+			</div>
+		</form>
+	</div>
+	<script src="/js/utils.js"></script>
+</body>
+
+</html>

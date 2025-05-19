@@ -1,0 +1,169 @@
+@charset "UTF-8";
+
+/* 注文詳細ページのスタイル */
+.container {
+	width: 100%;
+	padding: 0 40px 80px 40px;
+	box-sizing: border-box;
+	overflow-x: auto;
+}
+
+.page-header {
+	margin-bottom: 20px;
+}
+
+/* カードスタイル */
+.detail-card {
+	background-color: rgba(255, 255, 255);
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+
+.card-header {
+	background-color: rgba(255, 255, 255);
+	padding: 15px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 600;
+	color: rgba(51, 51, 51);
+}
+
+.card-body {
+	padding: 0;
+	margin: 20px;
+	font-size: 14px;
+}
+
+/* テーブルスタイル */
+table {
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.detail-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.detail-table th,
+.detail-table td {
+	padding: 12px 15px;
+	text-align: left;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.detail-table th {
+	background-color: rgba(255, 221, 191);
+	width: 20%;
+	font-weight: 600;
+}
+
+.detail-table tr:last-child th,
+.detail-table tr:last-child td {
+	border-bottom: none;
+}
+
+/* 商品テーブル特有のスタイル */
+.product-table thead th {
+	background-color: rgba(255, 221, 191);
+	font-weight: 600;
+}
+
+.product-table tfoot th,
+.product-table tfoot td {
+	font-weight: 600;
+	border-top: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.text-right {
+	text-align: right;
+}
+
+.sub-total .row,
+.total .row {
+	display: flex;
+	justify-content: space-between;
+	padding: 4px 0;
+	font-size: 14px;
+}
+
+.total .row.total-row {
+	font-weight: bold;
+	font-size: 16px;
+	padding-top: 8px;
+	margin-top: 8px;
+}
+
+.sub-total,
+.total {
+	max-width: 300px;
+	margin-left: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.select-wrapper {
+	position: relative;
+}
+
+.dropdown {
+	appearance: none;
+	width: 200px;
+	align-items: stretch;
+	gap: 25px;
+	padding: 10px;
+	cursor: pointer;
+}
+
+#orderStatus.dropdown {
+	padding: 10px 0;
+	border-color: rgba(255, 255, 255);
+}
+
+.select-wrapper::after {
+	content: '▼';
+	position: absolute;
+	left: 100px;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+	font-size: 12px;
+	color: rgba(51, 51, 51);
+}
+
+/* ボタンコンテナ */
+.button-container {
+	display: flex;
+	justify-content: center;
+	margin: 30px 0;
+}
+
+.search-button {
+	background-color: rgba(108, 117, 125);
+	padding: 14px 30px;
+}
+
+.search-button:hover {
+	background-color: rgba(90, 98, 104);
+}
+
+.button-content {
+	display: flex;
+	align-items: center;
+}
+
+.button-content svg {
+	margin-right: 8px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+	.detail-table th {
+		width: 30%;
+	}
+}

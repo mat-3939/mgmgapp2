@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>404 Not Found | ごちそうお弁当通販・モグモグ</title>
+	<link rel="icon" th:href="@{/favicon.ico?v=1}" type="image/x-icon">
+	<link rel="stylesheet" th:href="@{/css/error/error.css}" type="text/css">
+</head>
+
+<body>
+	<div class="wrapper">
+		<header th:replace="user/fragments :: siteHeader"></header>
+		<div class="p-list">
+			<p class="breadcrumb">
+				<a th:href="@{/}">トップ</a>
+				<span class="separator">&gt;</span>
+				<span>404 Not Found</span>
+			</p>
+		</div>
+		<div class="container">
+			<div class="background">
+				<img th:src="@{/img/background/404.png}">
+			</div>
+			<div class="hero">
+				<a th:href="@{/products}">
+					<button class="hero-button">商品一覧から探す</button>
+				</a>
+			</div>
+		</div>
+		<footer th:replace="user/fragments :: siteFooter"></footer>
+
+		<copyright>
+			<span>©2025 MgmgApp ALL Rights Reserved.</span>
+		</copyright>
+	</div>
+</body>
+
+</html>

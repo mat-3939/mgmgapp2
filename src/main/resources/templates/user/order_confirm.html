@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>注文内容確認 | ごちそうお弁当通販・モグモグ</title>
+	<link rel="icon" th:href="@{/favicon.ico?v=1}" type="image/x-icon">
+	<link rel="stylesheet" th:href="@{/css/user/fragments.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/user/order_form.css}" type="text/css">
+</head>
+
+<body>
+	<header th:replace="user/fragments :: siteHeader"></header>
+
+	<h1>ご注文内容の確認</h1>
+	<div class="checkout-container">
+		<!-- 左：フォーム -->
+		<form th:action="@{/orders/complete}" th:object="${orderForm}" method="post" 　class="checkout-form">
+			<div class="contact">
+				<h3>連絡先</h3>
+				<div class="form-group">
+					<p>メールアドレス：<span th:text="*{email}"></span></p>
+					<input type="hidden" th:field="*{email}" />
+				</div>
+			</div>
+
+			<div class="delivery">
+				<h3>お届け先</h3>
+				<div class="input-row">
+					<div class="form-group">
+						<p>姓：<span th:text="*{lastName}"></span></p>
+						<input type="hidden" th:field="*{lastName}" />
+					</div>
+					<div class="form-group">
+						<p>名：<span th:text="*{firstName}"></span></p>
+						<input type="hidden" th:field="*{firstName}" />
+					</div>
+				</div>
+				<div class="input-row">
+					<div class="form-group">
+						<p>郵便番号：<span th:text="*{postcode}"></span></p>
+						<input type="hidden" th:field="*{postcode}" />
+					</div>
+					<div class="form-group">
+						<p>都道府県：<span th:text="*{prefecture}"></span></p>
+						<input type="hidden" th:field="*{prefecture}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<p>市区町村：<span th:text="*{city}"></span></p>
+					<input type="hidden" th:field="*{city}" />
+				</div>
+				<div class="form-group">
+					<p>住所：〒<span th:text="*{addressLine}"></span></p>
+					<input type="hidden" th:field="*{addressLine}" />
+				</div>
+				<div class="form-group">
+					<p>建物名：<span th:text="*{building}"></span></p>
+					<input type="hidden" th:field="*{building}" />
+				</div>
+				<div class="form-group">
+					<p>電話番号：<span th:text="*{tel}"></span></p>
+					<input type="hidden" th:field="*{tel}" />
+				</div>
+			</div>
+			<div class="pay">
+				<h3>お支払い</h3>
+				<div class="form-group">
+					<p>カード番号：****-****-****-<span
+							th:text="${#strings.substring(orderForm.cardNumber, orderForm.cardNumber.length() - 4)}"></span>
+					</p>
+					<input type="hidden" th:field="*{cardNumber}" />
+				</div>
+				<div class="input-row">
+					<div class="form-group">
+						<p>有効期限：<span th:text="*{cardExpiry}"></span></p>
+						<input type="hidden" th:field="*{cardExpiry}" placeholder="MM/YY" />
+					</div>
+					<div class="form-group">
+						<p>セキュリティコード（CVV）：***</p>
+						<input type="hidden" th:field="*{cardCvv}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<p>名義人：<span th:text="*{cardHolderName}"></span></p>
+					<input type="hidden" th:field="*{cardHolderName}" />
+				</div>
+			</div>
+
+			<button type="submit" class="checkout-button">注文を確定する</button>
+			<a th:href="@{/orders/form}" class="back-to-cart">修正する</a>
+		</form>
+
+		<!-- 右：カート情報 -->
+		<div class="cart-summary">
+			<h3>ご注文内容</h3>
+			<div th:each="cartItem : ${cartItems}" class="cart-item">
+				<img th:src="@{${cartItem.product.imagePath}}" th:alt="${cartItem.product.name}"
+					class="cart-item-image" />
+
+				<div class="cart-item-main">
+					<div class="item-left">
+						<p class="item-name" th:text="${cartItem.product.name}"></p>
+					</div>
+					<div class="item-right">
+						<p class="item-price" th:text="${@priceFormatter.format(cartItem.product.price)}"></p>
+					</div>
+				</div>
+
+				<span class="quantity-badge" th:text="${cartItem.quantity}"></span>
+			</div>
+			<div class="price-container">
+				<span class="tax-label">合計（税込）</span>
+				<p class="cart-total" th:text="${@priceFormatter.format(totalPrice)}"></p>
+			</div>
+		</div>
+	</div>
+	<script>
+		function formatPostcode(input) {
+			let value = input.value.replace(/[^0-9]/g, '');
+
+			if (value.length >= 3) {
+				input.value = value.slice(0, 3) + '-' + value.slice(3, 7);
+			} else {
+				input.value = value;
+			}
+		}
+
+		function formatExpiry(input) {
+			let value = input.value.replace(/[^0-9]/g, '');
+
+			if (value.length >= 3) {
+				input.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+			} else {
+				input.value = value;
+			}
+		}
+
+		window.addEventListener('DOMContentLoaded', () => {
+			const summary = document.querySelector('.cart-summary');
+			const rect = summary.getBoundingClientRect();
+			const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+			const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+			summary.style.top = (rect.top + scrollTop) + 'px';
+			summary.style.left = (rect.left + scrollLeft) + 'px';
+			summary.classList.add('cart-summary-fixed');
+		});
+	</script>
+</body>
+
+</html>

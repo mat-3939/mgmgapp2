@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>注文詳細 | Management</title>
+	<link rel="icon" th:href="@{/favicon.ico?v=1}" type="image/x-icon">
+	<link rel="stylesheet" th:href="@{/css/admin/common.css}">
+	<link rel="stylesheet" th:href="@{/css/admin/order_detail.css}">
+</head>
+
+<body>
+	<!-- 共通ヘッダー読み込み -->
+	<th:block th:replace="~{admin/fragments :: header}" />
+
+	<!-- 共通サイドメニュー読み込み -->
+	<th:block th:replace="~{admin/fragments :: sidemenu}" />
+
+	<!-- メインコンテンツ -->
+	<div class="main">
+		<div class="top-bar">
+			<h1>注文詳細 <span class="sub-title">注文管理</span></h1>
+		</div>
+		<div class="container">
+
+			<!-- 注文情報 -->
+			<div class="detail-card">
+				<div class="card-header">
+					<h5 class="card-title">注文情報</h5>
+				</div>
+				<div class="card-body">
+					<table class="detail-table">
+						<tbody>
+							<tr>
+								<th>注文ID</th>
+								<td th:text="${order.id}">10</td>
+							</tr>
+							<tr>
+								<th>ステータス</th>
+								<td>
+									<form th:action="@{/admin/orders/{id}/status/detail(id=${order.id})}" method="post">
+										<div class="select-wrapper">
+											<select class="dropdown" id="orderStatus" name="status"
+												onchange="this.form.submit()">
+												<option value="false" th:selected="${!order.status}">未対応</option>
+												<option value="true" th:selected="${order.status}">対応済み</option>
+											</select>
+										</div>
+									</form>
+								</td>
+							</tr>
+							<tr>
+								<th>支払い方法</th>
+								<td th:text="${order.payMethod}">クレジットカード</td>
+							</tr>
+							<tr>
+								<th>注文日</th>
+								<td
+									th:text="${order.orderDate != null ? #temporals.format(order.orderDate, 'yyyy/MM/dd') : '-'}">
+									2025/04/22</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- 注文者情報 -->
+			<div class="detail-card">
+				<div class="card-header">
+					<h5 class="card-title">注文者情報</h5>
+				</div>
+				<div class="card-body">
+					<table class="detail-table">
+						<tbody>
+							<tr>
+								<th>氏名</th>
+								<td th:text="${order.lastName + ' ' + order.firstName}">太郎 山田</td>
+							</tr>
+							<tr>
+								<th>メールアドレス</th>
+								<td th:text="${order.email}">example@gmail.com</td>
+							</tr>
+							<tr>
+								<th rowspan="4">住所</th>
+								<td>〒 <span th:text="${order.postcode}">123456</span></td>
+							</tr>
+							<tr>
+								<td th:text="${order.prefecture}">大阪府</td>
+							</tr>
+							<tr>
+								<td th:text="${order.city}">大阪市北区</td>
+							</tr>
+							<tr>
+								<td
+									th:text="${order.addressLine + (order.building != null ? ' ' + order.building : '')}">
+									西梅田1丁目6-8</td>
+							</tr>
+							<tr>
+								<th>電話番号</th>
+								<td th:text="${order.tel}">08012345678</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- 注文商品情報 -->
+			<div class="detail-card">
+				<div class="card-header">
+					<h5 class="card-title">注文商品</h5>
+				</div>
+				<div class="card-body">
+					<table class="detail-table product-table">
+						<thead>
+							<tr>
+								<th>商品名</th>
+								<th>単価</th>
+								<th>数量</th>
+								<th>小計</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${orderItems}">
+								<td th:text="${item.product.name}">おかず12マス弁当～瑞～</td>
+								<td th:text="${'¥' + #numbers.formatInteger(item.price, 1, 'COMMA')}">¥1,180</td>
+								<td th:text="${item.quantity}">1</td>
+								<td th:text="${'¥' + #numbers.formatInteger(item.price * item.quantity, 1, 'COMMA')}">
+									¥1,180</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="sub-total">
+						<div class="row">
+							<span>小計</span>
+							<span th:text="${'¥' + #numbers.formatInteger(order.totalPrice, 1, 'COMMA')}"></span>
+						</div>
+						<div class="row">
+							<span>送料</span>
+							<span>¥0</span>
+						</div>
+						<div class="row">
+							<span>手数料</span>
+							<span>¥0</span>
+						</div>
+					</div>
+					<div class="total">
+						<div class="row total-row">
+							<span>合計</span>
+							<span th:text="${'¥' + #numbers.formatInteger(order.totalPrice, 1, 'COMMA')}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 戻るボタン -->
+			<div class="button-container">
+				<a th:href="@{/admin/orders}" class="search-button">
+					<span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+							viewBox="0 0 16 16">
+							<path fill-rule="evenodd"
+								d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+						</svg>
+						注文一覧に戻る
+					</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

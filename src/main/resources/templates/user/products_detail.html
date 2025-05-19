@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${product.name} + ' | ごちそうお弁当通販・モグモグ'">商品詳細 | ごちそうお弁当通販・モグモグ</title>
+	<link rel="icon" th:href="@{/favicon.ico?v=1}" type="image/x-icon">
+	<link rel="stylesheet" th:href="@{/css/user/fragments.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/user/products.css}" type="text/css">
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<header th:replace="user/fragments :: siteHeader"></header>
+
+		<!--パンくず-->
+		<div class="p-list">
+			<p class="breadcrumb">
+				<a th:href="@{/}">トップ</a>
+				<span class="separator">&gt;</span>
+				<a th:href="@{/products}">商品一覧</a>
+				<span class="separator">&gt;</span>
+				<span th:text="${product.name}"></span>
+			</p>
+		</div>
+
+		<!--商品詳細-->
+		<div class="detail_wrap">
+			<!--左サイド　商品画像-->
+			<div class="detail_left">
+				<img th:src="@{${product.imagePath}}" th:attr="data-img=${product.imagePath}, alt=${product.name}" />
+			</div>
+			<!--右サイド　テキスト-->
+			<div class="detail_right">
+				<div class="detail-text">
+					<!--商品名-->
+					<h2 th:text="${product.name}"></h2>
+					<!--価格-->
+					<div class="price-container">
+						<p class="detail-price" th:text="${@priceFormatter.format(product.price)}">価格</p>
+						<span class="tax-label">（税込）</span>
+					</div>
+					<!--説明文-->
+					<p class="description" th:text="${product.description}"></p>
+				</div>
+				<div class="detail-btn">
+					<!-- 数量選択 -->
+					<span>数量</span>
+					<div class="quantity-wrapper">
+						<button type="button" class="quantity-btn" id="decrease">－</button>
+						<span id="quantity-display">1</span> <!-- 現在の数量がここに表示される -->
+						<button type="button" class="quantity-btn" id="increase">＋</button>
+					</div>
+					<!-- カート追加フォーム -->
+					<form th:action="@{/cart/add}" method="post">
+						<input type="hidden" name="productId" th:value="${product.id}" />
+						<input type="hidden" name="quantity" id="quantity" value="1" />
+						<button class="add-cart-btn" type="submit">カートに追加</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!--人気５-->
+		<div class="pickUp">
+			<h3>オンラインショップで人気の商品</h3>
+			<ul>
+				<li th:each="pickUp : ${pickUp}">
+					<a th:href="@{/products/{id}(id=${pickUp.id})}">
+						<img th:src="@{${pickUp.imagePath}}"
+							th:attr="data-img=${pickUp.imagePath}, alt=${pickUp.name}" />
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<footer th:replace="user/fragments :: siteFooter"></footer>
+
+		<!-- コピーライト -->
+		<copyright>
+			<span>©2025 MgmgApp ALL Rights Reserved.</span>
+		</copyright>
+
+	</div>
+
+	<script>
+		// 初期数量
+		let quantity = 1;
+
+		// DOM要素の取得
+		const quantityDisplay = document.getElementById('quantity-display');
+		const quantityInput = document.getElementById('quantity');
+		const increaseButton = document.getElementById('increase');
+		const decreaseButton = document.getElementById('decrease');
+
+		// 数量増加処理
+		increaseButton.addEventListener('click', function () {
+			quantity++;
+			updateQuantity();
+		});
+
+		// 数量減少処理（1以上に制限）
+		decreaseButton.addEventListener('click', function () {
+			if (quantity > 1) {
+				quantity--;
+				updateQuantity();
+			}
+		});
+
+		// 数量の更新処理
+		function updateQuantity() {
+			quantityDisplay.textContent = quantity;
+			quantityInput.value = quantity;
+		}
+	</script>
+
+</body>
+
+</html>

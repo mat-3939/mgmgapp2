@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--meta head-->
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${title}">Default Title</title>
+	<!--共通css-->
+	<link th:href="@{/css/user/fragments.css}" rel="stylesheet" type="text/css">
+	<!--	<div th:fragment="meta(title)">-->
+
+
+	<!--　　以下は必要なのがあれば使う！　　-->
+
+	<!--＊レスポンシブ用のviewport-->
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+	<!--＊ファビコン-->
+	<!--<link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">-->
+	<!--＊共通js-->
+	<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script th:src="@{/js/script.js}" defer></script>-->
+	<!--＊google font-->
+	<!--<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		※実際のURLに差し替えて使う→<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">-->
+	<!--	</div>-->
+</head>
+
+<body>
+	<!-- ヘッダー -->
+	<header th:fragment="siteHeader" class="header">
+		<div class="header-container">
+			<div class="logo">
+				<a th:href="@{/}"><img th:src="@{/img/logo/logo_wt.svg}" alt="ロゴ"></a>
+			</div>
+
+			<div class="search-bar">
+				<!--			以下で検索クエリを商品一覧ページで処理するようにしてる。→user/product側のコントローラとかが必要だけど未作成-->
+				<form action="/products" method="get">
+					<input type="text" name="q" placeholder="商品名で検索" th:value="${q}" />
+					<button type="submit"><img th:src="@{/img/icon/search.svg}" alt="検索マーク"></button>
+				</form>
+			</div>
+
+			<div class="nav-buttons">
+				<a href="/products" class="nav-button products" th:href="@{/products}">商品一覧</a>
+				<div class="cart-button">
+					<a href="/cart" class="nav-button cart" th:href="@{/cart}">
+						<img th:src="@{/img/icon/icon_cart.svg}" alt="カート">
+						<span class="cart-badge" th:if="${cartTotalQuantity > 0}" th:text="${cartTotalQuantity}"></span>
+						<span>カート</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- フッター -->
+	<footer th:fragment="siteFooter" class="footer">
+		<div class="footer-container">
+			<div class="footer-left">
+				<a th:href="@{/}" class="footer-logo"><img th:src="@{/img/logo/logo_or.svg}" alt="ロゴ"></a>
+				<h4>店舗情報</h4>
+				<span>店名：ごちそうお弁当通販・モグモグ</span>
+				<span>所在地：〒100-0000 東京都千代田区丸の内1-1-1</span>
+				<span>営業時間：9:00 AM - 7:00 PM (月曜日～金曜日)</span>
+				<span>定休日：土曜日・日曜日・祝日</span>
+				<span>TEL：03-1234-5678</span>
+				<span>メールアドレス：gochisomgmgapp@gmail.com</span>
+			</div>
+
+			<div class="footer-links">
+				<div class="footer-column">
+					<h4>カテゴリ</h4>
+					<a th:href="@{/products}">商品一覧</a>
+					<a th:href="@{/cart}">カート</a>
+				</div>
+				<div class="footer-column">
+					<h4>ガイド</h4>
+					<a>利用規約</a>
+					<a>特定商取引に基づく表記</a>
+					<a>プライバシーポリシー</a>
+					<a th:href="@{/login}" target="_blank">管理者ログイン</a>
+				</div>
+				<div class="footer-column">
+					<h4>サイトマップ</h4>
+					<a th:href="@{/}">ホーム</a>
+					<a>お問い合わせ</a>
+					<a>店舗情報</a>
+				</div>
+			</div>
+			<div class="footer-sns">
+				<a><img th:src="@{/img/icon/X.svg}" alt="X"></a>
+				<a><img th:src="@{/img/icon/Instagram.svg}" alt="Instagram"></a>
+				<a><img th:src="@{/img/icon/TikTok.svg}" alt="TikTok"></a>
+			</div>
+		</div>
+	</footer>
+</body>
+
+</html>

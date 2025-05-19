@@ -1,0 +1,109 @@
+@charset "UTF-8";
+
+/* 商品登録/編集CSS */
+
+.container {
+	max-width: 1200px;
+	margin: 30px auto;
+	display: flex;
+	gap: 20px;
+	padding: 0 20px;
+	margin-bottom: 120px;
+}
+
+.form-section,
+.category-section {
+	background-color: rgba(255, 255, 255);
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-section {
+	flex: 2;
+}
+
+.category-section {
+	flex: 1;
+}
+
+.category-items {
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 6px;
+	padding: 20px;
+	margin-top: 20px;
+}
+
+.category-option label,
+.category-option input {
+	cursor: pointer;
+}
+
+h2 {
+	margin-top: 0;
+	font-size: 18px;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+}
+
+.form-group {
+	width: 100%;
+	margin-bottom: 24px;
+}
+
+.required::after {
+	content: "必須";
+	color: rgba(255, 255, 255);
+	background-color: rgba(244, 67, 54);
+	padding: 2px 4px;
+	margin-left: 10px;
+	border-radius: 4px;
+	font-size: 12px;
+}
+
+textarea {
+	resize: vertical;
+	min-height: 100px;
+}
+
+.image-upload {
+	border: 2px dashed rgba(204, 204, 204);
+	padding: 20px;
+	text-align: center;
+	border-radius: 6px;
+	background-color: rgba(250, 250, 250);
+	position: relative;
+}
+
+.image-upload input[type="file"] {
+	display: none;
+}
+
+.image-upload label {
+	cursor: pointer;
+	display: inline-block;
+	font-weight: bold;
+	padding: 8px 16px;
+	background-color: rgba(238, 238, 238);
+	border-radius: 4px;
+	margin-top: 10px;
+}
+
+.category-option {
+	margin-bottom: 10px;
+}
+
+.footer-buttons {
+	margin-left: 200px;
+	flex: 1;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0, 0, 0, 0.7);
+	padding: 20px;
+	display: flex;
+	align-items: center;
+	z-index: 100;
+	justify-content: space-between;
+}

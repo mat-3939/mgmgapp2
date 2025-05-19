@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ご注文ありがとうございます</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- スマホ対応に必須 -->
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f0f0f0;
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			max-width: 700px;
+			width: 90%;
+			margin: 0 auto;
+			background-color: #ffffff;
+			padding: 24px;
+			border-radius: 10px;
+		}
+
+		h1,
+		h2,
+		h3 {
+			color: #555555;
+			text-align: center;
+		}
+
+		.section {
+			margin-top: 32px;
+		}
+
+		.info-label {
+			color: #888888;
+			font-size: 14px;
+		}
+
+		.info-content {
+			font-size: 16px;
+			margin-bottom: 10px;
+			word-wrap: break-word;
+		}
+
+		.product {
+			border-top: 1px solid #ddd;
+			padding: 16px 0;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 12px;
+		}
+
+		.product:last-child {
+			border-bottom: 1px solid #ddd;
+		}
+
+		.product-info {
+			flex: 1 1 100%;
+		}
+
+		.product-name {
+			font-size: 16px;
+			color: #333333;
+			font-weight: bold;
+		}
+
+		.product-price {
+			font-size: 14px;
+			color: #888888;
+		}
+
+		.total {
+			font-size: 20px;
+			color: #333333;
+			font-weight: bold;
+			text-align: left;
+			margin-top: 20px;
+		}
+
+		.footer {
+			margin-top: 32px;
+			font-size: 14px;
+			color: #888;
+			text-align: center;
+		}
+
+		@media screen and (max-width: 480px) {
+			.container {
+				padding: 16px;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-size: 18px;
+			}
+
+			.info-content {
+				font-size: 14px;
+			}
+
+			.product-name {
+				font-size: 14px;
+			}
+
+			.product-price {
+				font-size: 13px;
+			}
+
+			.total {
+				font-size: 18px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1 th:text="${form.lastName} + ' ' + ${form.firstName} + ' 様'">お名前 様</h1>
+		<h2>ご注文ありがとうございます</h2>
+
+		<div class="section">
+			<h3>ご注文者情報</h3>
+			<p class="info-content">メールアドレス：<span th:text="${form.email}">sample@example.com</span></p>
+			<p class="info-content">電話番号：<span th:text="${form.tel}">090-xxxx-xxxx</span></p>
+			<p class="info-content">
+				住所：<span
+					th:text="${form.postcode} + ' ' + ${form.prefecture} + ' ' + ${form.city} + ' ' + ${form.addressLine} + ' ' + ${form.building}">
+					〒123-4567 東京都新宿区西新宿1-1-1 マンション101
+				</span>
+			</p>
+		</div>
+
+		<div class="section">
+			<h3>ご注文商品</h3>
+			<div th:each="item : ${cartItems}" class="product">
+				<div class="product-info">
+					<div class="product-name" th:text="${item.product.name}">商品名</div>
+					<div class="product-price">
+						<span th:text="'¥' + ${#numbers.formatInteger(item.product.price, 3, 'COMMA')}">0</span> ×
+						<span th:text="${item.quantity}">1</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="section">
+			<p class="info-content">お支払方法：<strong>クレジットカード</strong></p>
+			<div class="total">
+				合計金額（税込）：<span th:text="'¥' + ${#numbers.formatInteger(total, 3, 'COMMA')}">0</span>
+			</div>
+		</div>
+
+		<div class="footer">
+			<p>この度はご注文いただき誠にありがとうございました。</p>
+		</div>
+	</div>
+</body>
+
+</html>

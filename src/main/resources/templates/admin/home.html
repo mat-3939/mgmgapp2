@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ホーム | Management</title>
+	<link rel="icon" th:href="@{/favicon.ico?v=1}" type="image/x-icon">
+	<link rel="stylesheet" th:href="@{/css/admin/common.css}">
+	<link rel="stylesheet" th:href="@{/css/admin/home.css}">
+</head>
+
+<body>
+	<!-- 共通ヘッダー読み込み -->
+	<th:block th:replace="~{admin/fragments :: header}" />
+
+	<!-- 共通サイドメニュー読み込み -->
+	<th:block th:replace="~{admin/fragments :: sidemenu}" />
+
+	<!-- ホーム画面 -->
+	<div class="main">
+		<div class="top-bar">
+			<h1>ホーム</h1>
+		</div>
+		<div class="home-container">
+			<!-- 注文状況と売上状況のカード -->
+			<div class="dashboard-row">
+				<!-- 注文状況カード -->
+				<div class="dashboard-card" id="order">
+					<div class="card-header">
+						<h5 class="card-title">注文状況</h5>
+					</div>
+					<div class="card-body">
+						<div class="data-row">
+							<div class="data-label">注文件数</div>
+							<div class="data-value" th:text="${orderCount} + ' 件'">0</div>
+						</div>
+						<div class="data-row">
+							<div class="data-label">対応済み</div>
+							<div class="data-value" th:text="${completedOrderCount} + ' 件'">0</div>
+						</div>
+						<div class="data-row">
+							<div class="data-label">未対応</div>
+							<div class="data-value" th:text="${pendingOrderCount} + ' 件'">0</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 売上状況カード -->
+				<div class="dashboard-card" id="sell">
+					<div class="card-header">
+						<h5 class="card-title">売上状況</h5>
+					</div>
+					<div class="card-body">
+						<div class="data-row margin-bottom">
+							<div class="data-label">本日の売上金額</div>
+							<div class="data-value" th:text="${@priceFormatter.format(todaySalesAmount)}">0</div>
+						</div>
+						<div class="button-group">
+							<button class="period-button active" onclick="updateSalesData('weekly')">週間</button>
+							<button class="period-button" onclick="updateSalesData('monthly')">月間</button>
+							<button class="period-button" onclick="updateSalesData('yearly')">年間</button>
+						</div>
+						<div class="data-row margin-top">
+							<div class="data-label">合計売上金額</div>
+							<div class="data-value" id="salesAmount"
+								th:text="${@priceFormatter.format(weeklySalesAmount)}">0</div>
+						</div>
+						<div class="data-row">
+							<div class="data-label">合計売上件数</div>
+							<div class="data-value" id="salesCount" th:text="${weeklySalesCount} + ' 件'">0</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function updateSalesData(period) {
+			document.querySelectorAll('.period-button').forEach(btn => {
+				btn.classList.remove('active');
+			});
+			event.target.classList.add('active');
+
+			fetch(`/admin/sales-data?period=${period}`)
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('データの取得に失敗しました');
+					}
+					return response.json();
+				})
+				.then(data => {
+					document.getElementById('salesAmount').textContent = formatPrice(data.amount);
+					document.getElementById('salesCount').textContent = formatCount(data.count);
+				})
+				.catch(error => {
+					console.error('データの取得に失敗しました:', error);
+				});
+		}
+
+		function formatPrice(amount) {
+			if (typeof amount !== 'number') {
+				amount = Number(amount);
+			}
+			if (isNaN(amount)) return '¥0';
+
+			return new Intl.NumberFormat('ja-JP', {
+				style: 'currency',
+				currency: 'JPY'
+			}).format(amount);
+		}
+
+		function formatCount(count) {
+			if (typeof count !== 'number') {
+				count = Number(count);
+			}
+			if (isNaN(count)) return '0 件';
+
+			return count.toLocaleString() + ' 件';
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,239 @@
+@charset "UTF-8";
+
+body,
+html {
+	height: 100%;
+}
+
+/* 全体レイアウト */
+.checkout-container {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	max-width: 1080px;
+	margin: 0 auto;
+	padding: 40px 20px;
+	gap: 40px;
+}
+
+/* 左：フォームエリア */
+.checkout-form {
+	flex: 2;
+	margin-right: 20px;
+	max-width: 580px;
+	width: 100%;
+}
+
+/* 入力フィールド共通 */
+.checkout-form h2 {
+	margin-top: 40px;
+	font-size: 16px;
+	font-weight: 400;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+.form-group label {
+	display: none;
+}
+
+.input-row {
+	display: flex;
+	gap: 20px;
+	flex-wrap: wrap;
+}
+
+.input-row .form-group {
+	flex: 1;
+	min-width: 270px;
+	max-width: 100%;
+}
+
+.form-group input,
+select {
+	width: 100%;
+	padding: 10px;
+	font-size: 1rem;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.select-wrapper {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+
+.select-wrapper select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	padding-right: 30px;
+}
+
+.select-wrapper::after {
+	content: '▼';
+	position: absolute;
+	right: 12px;
+	top: 55%;
+	transform: translateY(-50%);
+	pointer-events: none;
+	font-size: 12px;
+	color: rgba(51, 51, 51);
+}
+
+
+.dropdown {
+	appearance: none;
+	align-items: stretch;
+	gap: 25px;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.checkout-container input::placeholder {
+	font-size: 16px;
+	color: rgba(0, 0, 0, 0.4);
+}
+
+input:focus,
+select:focus {
+	border-color: rgba(0, 123, 255);
+	outline: none;
+}
+
+.contact,
+.delivery,
+.pay {
+	margin-bottom: 40px;
+}
+
+/* 右：注文情報（カート）固定 */
+.cart-summary-fixed {
+	position: sticky;
+	top: auto;
+	left: auto;
+	max-width: 440px;
+	width: 100%;
+	border-radius: 8px;
+	z-index: 1000;
+}
+
+.cart-summary h3 {
+	font-size: 1.2rem;
+	margin-bottom: 20px;
+}
+
+.cart-item {
+	display: flex;
+	align-items: center;
+	margin-bottom: 24px;
+	position: relative;
+}
+
+.cart-total {
+	font-weight: bold;
+	font-size: 1.1rem;
+	margin-top: 20px;
+	text-align: right;
+}
+
+.cart-item-image {
+	width: 60px;
+	height: 60px;
+	object-fit: cover;
+	border-radius: 4px;
+	margin-right: 24px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.item-left {
+	flex-grow: 1;
+}
+
+.item-right {
+	text-align: right;
+	min-width: 80px;
+}
+
+.cart-item-main {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex: 1;
+}
+
+.quantity-badge {
+	position: absolute;
+	top: -12px;
+	left: 50px;
+	background: rgba(102, 102, 102);
+	color: rgba(255, 255, 255);
+	border-radius: 50%;
+	font-size: 14px;
+	width: 24px;
+	height: 24px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.cart-item-info {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 12px;
+}
+
+.item-name,
+.item-price {
+	font-size: 14px;
+	margin: 0;
+}
+
+.price-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: 600;
+}
+
+.price-container p {
+	font-size: 24px;
+}
+
+/* ボタン */
+.checkout-button {
+	display: block;
+	max-width: 580px;
+	width: 100%;
+	padding: 12px;
+	font-size: 1rem;
+	background-color: rgba(0, 123, 255);
+	color: rgba(255, 255, 255);
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: 0.3s ease;
+}
+
+.checkout-button:hover {
+	background-color: rgba(0, 86, 179);
+}
+
+.back-to-cart {
+	display: block;
+	margin-top: 30px;
+	text-align: center;
+	color: rgba(0, 123, 255);
+	text-decoration: underline;
+}
+
+div .error {
+	font-size: 12px;
+	font-weight: 400;
+	color: rgba(244, 67, 54);
+}

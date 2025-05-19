@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>カート | ごちそうお弁当通販・モグモグ</title>
+	<link rel="icon" th:href="@{/favicon.ico?v=1}" type="image/x-icon">
+	<link rel="stylesheet" th:href="@{/css/user/fragments.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/user/cart.css}" type="text/css">
+</head>
+
+<body>
+	<div class="wrapper">
+		<header th:replace="user/fragments :: siteHeader"></header>
+
+		<!--パンくず-->
+		<div class="p-list">
+			<p class="breadcrumb">
+				<a th:href="@{/}">トップ</a>
+				<span class="separator">&gt;</span>
+				<a th:href="@{/products}">商品一覧</a>
+				<span class="separator">&gt;</span>
+				<span>カート</span>
+			</p>
+		</div>
+
+		<main>
+			<h1>カート</h1>
+
+			<div>
+				<!--        <h2>カート内の商品</h2>-->
+				<div th:if="${cartItems != null and !cartItems.isEmpty()}">
+					<div class="table-wrapper">
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">商品</th>
+									<th>数量</th>
+									<th>小計</th> <!-- ★小計列を追加 -->
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="cartItem : ${cartItems}">
+									<td>
+										<a th:href="@{/products/{id}(id=${cartItem.product.id})}">
+											<img th:src="@{${cartItem.product.imagePath}}"
+												th:attr="data-img=${cartItem.product.imagePath}, alt=${cartItem.product.name}" />
+										</a>
+									</td>
+									<td>
+										<a th:href="@{/products/{id}(id=${cartItem.product.id})}">
+											<div><span th:text="${cartItem.product.name}">商品名</span></div>
+											<div><span
+													th:text="${@priceFormatter.format(cartItem.product.price)}">価格</span>
+											</div>
+										</a>
+									</td>
+									<td>
+										<div class="quantity_del">
+											<form class="quantity-wrapper"
+												th:action="@{/cart/update/{id}(id=${cartItem.id})}" method="post">
+												<button class="quantity-btn" type="submit" name="delta"
+													value="-1">－</button>
+												<span th:text="${cartItem.quantity}">数量</span>
+												<button class="quantity-btn" type="submit" name="delta"
+													value="1">＋</button>
+											</form>
+											<form th:action="@{/cart/remove/{id}(id=${cartItem.id})}" method="post">
+												<button class="delete-icon">
+													<img th:src="@{/img/icon/gomibako.svg}" />
+												</button>
+											</form>
+										</div>
+									</td>
+									<!-- ★ここで小計を計算 -->
+									<td th:text="${@priceFormatter.format(cartItem.product.price * cartItem.quantity)}">
+										小計</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="sum-price">
+						<p>合計　<span th:text="${@priceFormatter.format(total)}">0</span></p>
+					</div>
+				</div>
+
+				<div class="null-wrapper" th:if="${cartItems.isEmpty()}">
+					<div class="null-container">
+						<p>カートに商品が入っていません。</p>
+					</div>
+				</div>
+
+				<!-- カートが空でない場合：購入手続き ＋ ショッピングを続ける -->
+				<div class="confirm" th:if="${cartItems != null and !cartItems.isEmpty()}">
+					<a th:href="@{/products}" class="continue-btn">ショッピングを続ける</a>
+					<a th:href="@{/orders/form}" class="confirm-btn">購入手続きに進む</a>
+				</div>
+
+				<!-- カートが空の場合：ショッピングを続ける のみ -->
+				<div class="continue" th:if="${cartItems == null or cartItems.isEmpty()}">
+					<a th:href="@{/products}" class="continue-btn">ショッピングを続ける</a>
+				</div>
+			</div>
+		</main>
+
+		<footer th:replace="user/fragments :: siteFooter"></footer>
+
+		<!-- コピーライト -->
+		<copyright>
+			<span>©2025 MgmgApp ALL Rights Reserved.</span>
+		</copyright>
+	</div>
+</body>
+
+</html>

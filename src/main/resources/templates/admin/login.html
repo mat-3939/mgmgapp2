@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ログイン | Management</title>
+	<link rel="icon" th:href="@{/favicon.ico?v=1}" type="image/x-icon">
+	<link rel="stylesheet" th:href="@{/css/admin/login.css}">
+</head>
+
+<body>
+	<h2>ログイン</h2>
+
+	<div class="outer">
+		<!-- ログインフォーム -->
+		<form th:action="@{/login}" method="post" th:object="${loginForm}">
+			<div class="inner">
+				<!-- ロゴ -->
+				<div>
+					<img class="logo-img" th:src="@{/img/logo/logo_or.svg}" />
+				</div>
+
+				<!-- ログアウト表示 -->
+				<div th:if="${param.logout}" class="logout">
+					<p>ログアウトしました</p>
+				</div>
+
+				<!-- ユーザーネーム -->
+				<div>
+					<label for="user_nameInput">ログインID</label>
+					<input type="text" th:field="*{user_nameInput}" id="user_nameInput" placeholder="ログインID">
+				</div>
+
+				<!-- パスワード -->
+				<div>
+					<label for="passwordInput">パスワード</label>
+					<input type="password" th:field="*{passwordInput}" id="passwordInput" placeholder="パスワード">
+				</div>
+
+				<!-- エラー表示 -->
+				<div th:if="${param.error}">
+					<p class="error">ログインIDまたはパスワードが違います</p>
+				</div>
+
+				<!-- ログインボタン -->
+				<div class="login-btn">
+					<input type="submit" value="ログイン">
+				</div>
+
+				<!-- コピーライト -->
+				<div class="copyright">
+					<span>©2025 MgmgApp ALL Rights Reserved.</span>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>
