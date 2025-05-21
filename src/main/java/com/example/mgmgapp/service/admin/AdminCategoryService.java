@@ -3,21 +3,19 @@ package com.example.mgmgapp.service.admin;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.mgmgapp.entity.Categories;
 import com.example.mgmgapp.repository.admin.AdminCategoryRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class AdminCategoryService {
 
     private final AdminCategoryRepository adminCategoryRepository;
 
-    @Autowired
-    public AdminCategoryService(AdminCategoryRepository adminCategoryRepository) {
-        this.adminCategoryRepository = adminCategoryRepository;
-    }
 
     /**
      * 全カテゴリを取得

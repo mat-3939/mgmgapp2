@@ -9,7 +9,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,15 +18,13 @@ import com.example.mgmgapp.entity.Products;
 import com.example.mgmgapp.repository.user.ProductRepository;
 import com.example.mgmgapp.util.CategoryDirectoryMapper;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class ProductService {
 	
 	private final ProductRepository productRepository;
-    
-	@Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 	
 	// 商品名で検索（部分一致）
     public List<Products> searchByName(String query) {

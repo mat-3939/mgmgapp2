@@ -106,22 +106,22 @@ public class AdminSalesService {
 
     /*週間の売上件数を取得*/
     public int getWeeklySalesCount() {
-        return (int) adminOrderItemRepository.findAll().stream()
-            .filter(orderItem -> orderItem.getOrder().getOrderDate().toLocalDate().isAfter(LocalDate.now().minusDays(7)))
-            .count();
+        return (int) adminOrderRepository.findAll().stream()
+        		.filter(order -> order.getOrderDate().toLocalDate().isAfter(LocalDate.now().minusDays(7)))
+                .count();
     }
 
     /*月間の売上件数を取得*/
     public int getMonthlySalesCount() {
-        return (int) adminOrderItemRepository.findAll().stream()
-            .filter(orderItem -> orderItem.getOrder().getOrderDate().toLocalDate().isAfter(LocalDate.now().minusMonths(1)))
+        return (int) adminOrderRepository.findAll().stream()
+        		.filter(order -> order.getOrderDate().toLocalDate().isAfter(LocalDate.now().minusMonths(1)))
             .count();
     }
 
     /*年間の売上金額を取得*/
     public int getYearlySalesCount() {
-        return (int) adminOrderItemRepository.findAll().stream()
-            .filter(orderItem -> orderItem.getOrder().getOrderDate().toLocalDate().isAfter(LocalDate.now().minusYears(1)))
+        return (int) adminOrderRepository.findAll().stream()
+        		.filter(order -> order.getOrderDate().toLocalDate().isAfter(LocalDate.now().minusYears(1)))
             .count();
     }    
     

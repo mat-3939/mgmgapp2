@@ -3,8 +3,7 @@ package com.example.mgmgapp.controller.admin;
 import java.util.List;
 
 import jakarta.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,15 +22,11 @@ import com.example.mgmgapp.service.admin.AdminCategoryService;
  * カテゴリの一覧表示、登録、更新、削除などを処理する
  */
 @Controller
+@AllArgsConstructor
 @RequestMapping("/admin/categories")
 public class AdminCategoryController {
 
     private final AdminCategoryService adminCategoryService;
-
-    @Autowired
-    public AdminCategoryController(AdminCategoryService adminCategoryService) {
-        this.adminCategoryService = adminCategoryService;
-    }
 
     /**
      * カテゴリ一覧表示

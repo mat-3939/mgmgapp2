@@ -122,7 +122,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="item : ${orderItems}">
-								<td th:text="${item.product.name}">おかず12マス弁当～瑞～</td>
+								<td th:text="${item.productName}">おかず12マス弁当～瑞～</td>
 								<td th:text="${'¥' + #numbers.formatInteger(item.price, 1, 'COMMA')}">¥1,180</td>
 								<td th:text="${item.quantity}">1</td>
 								<td th:text="${'¥' + #numbers.formatInteger(item.price * item.quantity, 1, 'COMMA')}">
@@ -157,11 +157,6 @@
 			<div class="button-container">
 				<a th:href="@{/admin/orders}" class="search-button">
 					<span>
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-							viewBox="0 0 16 16">
-							<path fill-rule="evenodd"
-								d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
-						</svg>
 						注文一覧に戻る
 					</span>
 				</a>

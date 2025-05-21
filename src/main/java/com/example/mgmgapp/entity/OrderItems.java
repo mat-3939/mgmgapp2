@@ -34,11 +34,10 @@ public class OrderItems {
     private Orders order;
 
     /**
-     * 商品ID（not null、多対一の関連）
+     * 商品名（not null）
      */
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Products product;
+    @Column(name = "product_name", nullable = false)
+    private String productName;
 
     /**
      * 注文数量（not null）

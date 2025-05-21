@@ -70,11 +70,13 @@
 					<span class="select-label">並び順：</span>
 					<select class="dropdown" onchange="location.href=this.value">
 						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='new')}"
-							th:selected="${sort == 'new'}">登録順</option>
+							th:selected="${sort == 'new'}">登録日（新しい順）</option>
+						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='createdAtAsc')}"
+							th:selected="${sort == 'createdAtAsc'}">登録日（古い順）</option>
 						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='update')}"
-							th:selected="${sort == 'update'}">更新順</option>
+							th:selected="${sort == 'update'}">更新日（新しい順）</option>
 						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='name')}"
-							th:selected="${sort == 'name'}">商品名</option>
+							th:selected="${sort == 'name'}">商品名（50音順）</option>
 						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='priceAsc')}"
 							th:selected="${sort == 'priceAsc'}">価格（安い順）</option>
 						<option th:value="@{/admin/products(categoryId=${selectedCategoryId}, sort='priceDesc')}"

@@ -67,7 +67,7 @@ public class OrderService {
         for (CartItems item : cartItems) {
             OrderItems orderItem = new OrderItems();
             orderItem.setOrder(savedOrder);
-            orderItem.setProduct(item.getProduct());
+            orderItem.setProductName(item.getProduct().getName());
             orderItem.setQuantity(item.getQuantity());
             orderItem.setPrice(item.getProduct().getPrice());
             orderItemRepository.save(orderItem);

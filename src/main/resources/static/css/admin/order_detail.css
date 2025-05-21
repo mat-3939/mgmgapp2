@@ -121,8 +121,8 @@ table {
 }
 
 #orderStatus.dropdown {
-	padding: 10px 0;
 	border-color: rgba(255, 255, 255);
+	right: 10px;
 }
 
 .select-wrapper::after {

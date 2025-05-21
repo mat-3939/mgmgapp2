@@ -3,7 +3,6 @@ package com.example.mgmgapp.controller.user;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,17 +13,14 @@ import com.example.mgmgapp.entity.Products;
 import com.example.mgmgapp.service.user.CategoryService;
 import com.example.mgmgapp.service.user.ProductService;
 
+import lombok.AllArgsConstructor;
+
 @Controller
+@AllArgsConstructor
 public class ProductController {
 	
 	private final ProductService productService;
 	private final CategoryService categoryService;
-	
-	@Autowired
-	public ProductController(ProductService productService, CategoryService categoryService) {
-		this.productService = productService;
-		this.categoryService = categoryService;
-	} 
 	
 	@GetMapping("/")
 	public String goHome(Model model) {

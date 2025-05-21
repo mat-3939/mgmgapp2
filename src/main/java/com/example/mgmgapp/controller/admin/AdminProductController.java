@@ -4,7 +4,6 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,23 +21,19 @@ import com.example.mgmgapp.form.ProductForm;
 import com.example.mgmgapp.service.admin.AdminCategoryService;
 import com.example.mgmgapp.service.admin.AdminProductService;
 
+import lombok.AllArgsConstructor;
+
 /**
  * 管理者用の商品操作コントローラ
  * 商品の一覧表示、登録、更新、削除などを処理する
  */
 @Controller
+@AllArgsConstructor
 @RequestMapping("/admin/products")
 public class AdminProductController {
 
 	private final AdminProductService adminProductService;
 	private final AdminCategoryService adminCategoryService;
-
-	@Autowired
-	public AdminProductController(AdminProductService adminProductService,
-	                              AdminCategoryService adminCategoryService) {
-		this.adminProductService = adminProductService;
-		this.adminCategoryService = adminCategoryService;
-	}
 
 	/**
 	 * 商品一覧を表示（デフォルトは新着順）

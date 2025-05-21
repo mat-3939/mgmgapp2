@@ -25,26 +25,19 @@
 		</div>
 		<!-- 検索フォーム -->
 		<div class="search-container">
-			<form th:action="@{/admin/orders/search}" method="get">
+			<form th:action="@{/admin/orders}" method="get" id="ordersSearchForm">
+				<!-- キーワード検索 -->
 				<div class="search-box">
 					<input type="text" class="keyword" name="keyword" th:value="${keyword}"
 						placeholder="注文者・メールアドレス・電話番号">
 				</div>
 
+				<!-- 詳細検索 -->
 				<div class="form-group">
 					<button type="button" class="toggle" id="toggleDetailSearch">
-						<span class="button-content">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-								viewBox="0 0 16 16">
-								<path
-									d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-							</svg>
-							詳細検索
-						</span>
+						<span class="button-content">＋詳細検索</span>
 					</button>
 				</div>
-
-				<!-- 詳細検索（トグルで表示/非表示） -->
 				<div class="detail-search" id="detailSearchSection">
 					<div class="form-row date-range-row">
 						<div class="form-group third">
@@ -64,37 +57,25 @@
 					</div>
 				</div>
 
-				<button type="submit" class="search-button" id="ordersSearch">検索</button>
-			</form>
-		</div>
-
-		<!-- 注文一覧テーブル -->
-		<div class="search-select">
-			<div class="pagination-info">
-				<!-- ページネーション情報などを表示する場所 -->
-			</div>
-
-			<div class="filter-controls">
-				<!-- ステータス絞り込みセレクトボックス -->
-				<form th:action="@{/admin/orders}" method="get">
+				<!-- 検索ボタン -->
+				<button type="submit" class="search-button">検索</button>
+				<div class="right-toolbar">
+					<!-- ステータス絞り込み -->
 					<div class="select-wrapper">
 						<span class="select-label">ステータス：</span>
-						<select class="dropdown" id="statusFilter" name="status" onchange="this.form.submit()">
+						<select class="dropdown" name="status"
+							onchange="document.getElementById('ordersSearchForm').submit()">
 							<option value="all" th:selected="${status == 'all'}">すべて</option>
 							<option value="true" th:selected="${status == 'true'}">対応済み</option>
 							<option value="false" th:selected="${status == 'false'}">未対応</option>
 						</select>
-						<!-- 現在の検索条件とソート条件を維持 -->
-						<input type="hidden" name="keyword" th:value="${keyword}" th:if="${keyword != null}">
-						<input type="hidden" name="sort" th:value="${sort}" th:if="${sort != null}">
 					</div>
-				</form>
 
-				<!-- ソートセレクトボックス -->
-				<form th:action="@{/admin/orders}" method="get">
+					<!-- ソート選択 -->
 					<div class="select-wrapper">
 						<span class="select-label">並び替え：</span>
-						<select class="dropdown" id="sortOrder" name="sort" onchange="this.form.submit()">
+						<select class="dropdown" name="sort"
+							onchange="document.getElementById('ordersSearchForm').submit()">
 							<option value="new" th:selected="${sort == 'new'}">注文日（新しい順）</option>
 							<option value="old" th:selected="${sort == 'old'}">注文日（古い順）</option>
 							<option value="price_high" th:selected="${sort == 'price_high'}">金額（高い順）</option>
@@ -102,15 +83,16 @@
 							<option value="id_new" th:selected="${sort == 'id_new'}">ID（新しい順）</option>
 							<option value="id_old" th:selected="${sort == 'id_old'}">ID（古い順）</option>
 						</select>
-						<!-- 現在の検索条件と絞り込み条件を維持 -->
-						<input type="hidden" name="keyword" th:value="${keyword}" th:if="${keyword != null}">
-						<input type="hidden" name="status" th:value="${status}" th:if="${status != null}">
 					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
 
-		<div class="table-wrapper">
+		<div th:if="${#lists.isEmpty(orders)}" class="no-results">
+			該当する注文が見つかりませんでした。
+		</div>
+
+		<div th:if="${#lists.size(orders) > 0}" class="table-wrapper">
 			<table>
 				<thead>
 					<tr>
@@ -133,6 +115,12 @@
 						<td th:text="${'¥' + #numbers.formatInteger(order.totalPrice, 1, 'COMMA')}">¥6,000</td>
 						<td>
 							<form th:action="@{/admin/orders/{id}/status(id=${order.id})}" method="post">
+								<input type="hidden" name="keyword" th:value="${keyword}" />
+									<input type="hidden" name="startDate" th:value="${startDate}" />
+									<input type="hidden" name="endDate" th:value="${endDate}" />
+									<input type="hidden" name="minAmount" th:value="${minAmount}" />
+									<input type="hidden" name="statusParam" th:value="${status}" />
+									<input type="hidden" name="sort" th:value="${sort}" />
 								<div class="select-wrapper-table">
 									<select class="dropdown" id="status" name="status" onchange="this.form.submit()">
 										<option value="false" th:selected="${!order.status}">未対応</option>
@@ -173,6 +161,30 @@
 			dateFormat: 'Y-m-d',
 			onChange: function (selectedDates, dateStr, instance) {
 				startPicker.set('maxDate', dateStr);
+			}
+		});
+	</script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const searchButton = document.querySelector('.search-button');
+			if (searchButton) {
+				searchButton.addEventListener('click', function (event) {
+					const keywordInput = document.querySelector('.keyword');
+					const startDateInput = document.querySelector('#startDate');
+					const endDateInput = document.querySelector('#endDate');
+					const minAmountInput = document.querySelector('#minAmount');
+
+					const isKeywordEmpty = !keywordInput || keywordInput.value.trim() === "";
+					const isStartDateEmpty = !startDateInput || startDateInput.value.trim() === "";
+					const isEndDateEmpty = !endDateInput || endDateInput.value.trim() === "";
+					const isMinAmountEmpty = !minAmountInput || minAmountInput.value.trim() === "";
+
+					// すべての入力が空だった場合にのみアラートを表示
+					if (isKeywordEmpty && isStartDateEmpty && isEndDateEmpty && isMinAmountEmpty) {
+						event.preventDefault();
+						alert("注文者・メールアドレス・電話番号を入力してください");
+					}
+				});
 			}
 		});
 	</script>
