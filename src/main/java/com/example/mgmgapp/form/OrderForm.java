@@ -37,7 +37,7 @@ public class OrderForm {
     private String building; // 建物名は任意なので @NotBlank なし
 
 
-    @Pattern(regexp = "^$|^[0-9]{10,11}$", message = "電話番号は10～11桁の数字で入力してください")
+    @Pattern(regexp = "^$|^[-0-9]{10,15}$", message = "電話番号の形式が正しくありません")
     private String tel;
 
 

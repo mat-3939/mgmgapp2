@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.mgmgapp.entity.Categories;
 import com.example.mgmgapp.entity.Products;
 import com.example.mgmgapp.repository.admin.AdminProductRepository;
+import com.example.mgmgapp.repository.user.CartItemRepository;
 import com.example.mgmgapp.util.CategoryDirectoryMapper;
 
 import lombok.AllArgsConstructor;
@@ -32,6 +33,8 @@ import lombok.AllArgsConstructor;
 public class AdminProductService {
 
     private final AdminProductRepository adminProductRepository;
+    private final CartItemRepository cartItemRepository;
+
 
     /**
      * 全商品の一覧を取得（登録日が新しい順）
@@ -69,6 +72,9 @@ public class AdminProductService {
             case "priceDesc":
                 sorting = Sort.by(Sort.Direction.DESC, "price");
                 break;
+            case "createdAtAsc":
+                sorting = Sort.by(Sort.Direction.ASC, "createdAt");
+                break;
             default:
                 sorting = Sort.by(Sort.Direction.DESC, "createdAt");
                 break;
@@ -87,6 +93,9 @@ public class AdminProductService {
                 break;
             case "priceDesc":
                 sorting = Sort.by(Sort.Direction.DESC, "price");
+                break;
+            case "createdAtAsc":
+                sorting = Sort.by(Sort.Direction.ASC, "createdAt");
                 break;
             default:
                 sorting = Sort.by(Sort.Direction.DESC, "createdAt");
@@ -124,6 +133,7 @@ public class AdminProductService {
      */
     @Transactional
     public void deleteProduct(Integer id) {
+    	cartItemRepository.deleteByProductId(id);
     	adminProductRepository.deleteById(id);
     }
 
@@ -160,6 +170,7 @@ public class AdminProductService {
             case "priceDesc" -> adminProductRepository.findAllByOrderByPriceDesc();
             case "name" -> adminProductRepository.findAllByOrderByNameAsc();
             case "update" -> adminProductRepository.findAllByOrderByUpdatedAtDesc();
+            case "createdAtAsc" -> adminProductRepository.findAllByOrderByCreatedAtAsc();
             default -> adminProductRepository.findAllByOrderByCreatedAtDesc(); // "new" またはデフォルト
         };
     }
@@ -181,6 +192,9 @@ public class AdminProductService {
                 break;
             case "priceDesc":
                 sorting = Sort.by(Sort.Direction.DESC, "price");
+                break;
+            case "createdAtAsc":
+                sorting = Sort.by(Sort.Direction.ASC, "createdAt");
                 break;
             default:
                 sorting = Sort.by(Sort.Direction.DESC, "createdAt");

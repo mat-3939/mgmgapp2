@@ -39,20 +39,6 @@ public String cart(Model model, HttpSession session) {
 
 	    System.out.println("cartItems is null? " + (cartItems == null));
 	    System.out.println("cartItems size: " + (cartItems != null ? cartItems.size() : "null"));
-
-	    //★★★★★
-	    // 合計金額を計算
-	    
-//	    int total = 0;
-//	    for (CartItems item : cartItems) {
-//	        int productId = item.getProduct().getId(); // product_id を取得
-//	        int price = cartService.getProductPrice(productId); // 単価を取得
-//	        total += price * item.getQuantity(); // 小計を足す
-//	        
-//	        System.out.println("〇〇〇");
-//	        System.out.println(item.getProduct());
-//	        System.out.println("〇〇〇");
-//	    }
 	    
 	    System.out.println("Cart Items: " + cartItems);
 	    System.out.println("Session ID: " + sessionId);

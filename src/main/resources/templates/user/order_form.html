@@ -119,7 +119,7 @@
 				</div>
 				<div class="form-group">
 					<label>電話番号：</label>
-					<input type="tel" th:field="*{tel}" placeholder="電話番号（任意）" />
+					<input type="tel" th:field="*{tel}" id="tel" placeholder="電話番号（任意）" />
 				</div>
 			</div>
 
@@ -210,6 +210,39 @@
 			summary.style.top = (rect.top + scrollTop) + 'px';
 			summary.style.left = (rect.left + scrollLeft) + 'px';
 			summary.classList.add('cart-summary-fixed');
+		});
+	</script>
+	<script src="https://unpkg.com/libphonenumber-js@1.10.21/bundle/libphonenumber-js.min.js"></script>
+	<script>
+		window.addEventListener("load", function () {
+			const inputTel = document.getElementById('tel'); // 電話番号の入力欄
+			if (!inputTel) {return false;}
+
+			// 電話番号の入力欄から離れたら発動
+			inputTel.addEventListener('blur', () => {
+				// バリデーション関数
+				const validateTelNeo = function (value) {
+					if (!value || value.trim() === '') return true;
+					return /^[0０]/.test(value) && libphonenumber.isValidNumber(value, 'JP');
+				}
+
+				// 整形関数
+				const formatTel = function (value) {
+					return new libphonenumber.AsYouType('JP').input(value);
+				}
+
+				const postdata = inputTel.value; // 入力した電話番号を取得
+
+				// 入力した内容がバリデーションに引っかかったときはエラー
+				if (!validateTelNeo(postdata)) {
+					console.log('ERROR');
+					return;
+				}
+
+				const formattedTel = formatTel(postdata); // 整形
+				console.log(formattedTel);
+				inputTel.value = formattedTel; // 整形後の値を入力欄に反映
+			});
 		});
 	</script>
 </body>

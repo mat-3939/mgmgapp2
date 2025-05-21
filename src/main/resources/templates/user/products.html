@@ -57,8 +57,8 @@
 						<span class="select-label">並び順：</span>
 						<select class="dropdown" name="sort" onchange="this.form.submit()">
 							<option th:value="new" th:selected="${sort == 'new'}">新着順</option>
-							<option th:value="priceAsc" th:selected="${sort == 'priceAsc'}">価格が安い順</option>
-							<option th:value="priceDesc" th:selected="${sort == 'priceDesc'}">価格が高い順</option>
+							<option th:value="priceAsc" th:selected="${sort == 'priceAsc'}">価格（安い順）</option>
+							<option th:value="priceDesc" th:selected="${sort == 'priceDesc'}">価格（高い順）</option>
 						</select>
 					</div>
 				</form>
@@ -92,7 +92,7 @@
 
 		<!-- コピーライト -->
 		<copyright>
-			<span>©2025 MgmgApp ALL Rights Reserved.</span>
+			<span>© 2025 株式会社MGMG. All Rights Reserved.</span>
 		</copyright>
 
 	</div>

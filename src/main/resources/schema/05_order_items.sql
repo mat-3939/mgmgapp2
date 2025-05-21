@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     -- 注文ID（not null、多対一の関連）
     order_id INTEGER NOT NULL REFERENCES orders(id),
     
-    -- 商品名（not null、多対一の関連）
+    -- 商品名（not null）
     product_name VARCHAR(30) NOT NULL,
     
     -- 注文数量（not null、デフォルト1）

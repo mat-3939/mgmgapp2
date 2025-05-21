@@ -22,8 +22,8 @@ import com.example.mgmgapp.service.admin.AdminCategoryService;
  * カテゴリの一覧表示、登録、更新、削除などを処理する
  */
 @Controller
-@RequestMapping("/admin/categories")
 @AllArgsConstructor
+@RequestMapping("/admin/categories")
 public class AdminCategoryController {
 
     private final AdminCategoryService adminCategoryService;
